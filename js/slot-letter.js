@@ -11,13 +11,15 @@ var slotColumnNum=3;
 var slotMargin=5;
 createSlots();
 var slots=$(".slot");
+var slotFinishFlag=false;
 
-var nameJson={"data":[{"NOMBRE_PILA":"EDISON LEANDRO"
-,"APELLIDO_MATERNO":"VARELA"
-,"APELLIDO_PATERNO":"SALINAS"
+var nameJson={"data":[{"NOMBRE_PILA":"GABRIEL LEANDRO"
+,"APELLIDO_MATERNO":"BECKER"
+,"APELLIDO_PATERNO":"DE IOANNES"
 }]}
 
 function createSlots(){
+    $(".slot-Container").html("");
     for(var slotColumCount=0;slotColumCount<slotColumnNum;slotColumCount++){
         $(".slot-Container").append('<div class="slot-row-container"></div>');
         for(var slotCount=0;slotCount<slotRowNum;slotCount++){
@@ -45,36 +47,46 @@ $(window).resize(function(){
 });
 
 $(window).keydown  (function(){
-    putName(nameJson.names);
+    if(!slotFinishFlag){
+        putName(nameJson.names);
+    }else{
+        createSlots();
+        slotFinishFlag=false;
+    }
 });
 
-function getLongestLength(someArray){
-    var maxLength=0;
-    for(var num=0;num<someArray.length;num++){
-        var someString=someArray[num];
-        if(maxLength<someString.length){
-            maxLength=someString.length;
-        }
-    }
-    console.log("MAX LENGTH:"+maxLength);
-    return maxLength;
-    
-}
 
 function putName(nameArray){
+    var personName=centerStringInSlot(nameJson.data[0].NOMBRE_PILA);
+    var personLastName=centerStringInSlot(nameJson.data[0].APELLIDO_PATERNO);
+    var personSecondLastName=centerStringInSlot(nameJson.data[0].APELLIDO_MATERNO);
+    var slotData=[personName,personLastName,personSecondLastName];
     for(var slotColumNumArray=0;slotColumNumArray<slotColumnNum;slotColumNumArray++){
         for(var slotRowNumArray=0;slotRowNumArray<slotRowNum;slotRowNumArray++){
             var selectSlot=$(".slot-row-container")[slotColumNumArray].children[slotRowNumArray];
             console.log(selectSlot);
+            if(slotData[slotColumNumArray][0]!=undefined){
+                selectSlot.innerHTML="<div class='letter-anim'>"+slotData[slotColumNumArray][0]+"</div>";
+                slotData[slotColumNumArray]=slotData[slotColumNumArray].slice(1,slotData[slotColumNumArray].length);
+                console.log(slotData[slotColumNumArray]);
+            }else{
+                selectSlot.innerHTML=" ";
+            }
         }
         console.log("CHANGE COLUM");
     }
+    slotFinishFlag=true;
 }
+
+    
     
 function centerStringInSlot(someName){
+    if(someName.length>slotRowNum){
+     someName=someName.substring(0, someName.indexOf(' '));
+    }
  for(var slotRowNumArray=0;slotRowNumArray<slotRowNum;slotRowNumArray++){
      var nameDiference=Math.round((slotRowNum-someName.length)/2);
-     var newName=new Array(nameDiference).join(' ')+someName;
+     var newName=new Array(nameDiference+1).join(' ')+someName;
  }
     return newName;
 }
