@@ -6,12 +6,24 @@ Thanks!
 $(window).ready(function(){
 var name2={names:["Gabriel De Ioannes Becker","Felipe Besoain","Pablo Rojas"]}
 
-var slotRowNum=12 ;
+var slotRowNum=14 ;
 var slotColumnNum=3;
 var slotMargin=5;
 createSlots();
 var slots=$(".slot");
 var slotFinishFlag=false;
+var slotAnimationFinishFlag=true;
+var interval;
+var timerCount=0;
+var rowCount=0;
+var columnCount=0;
+var personName;
+var personLastName;
+var personSecondLastName;
+var slotData;
+var TIMEDELAYLONG=10;
+var TIMEDELAYSHORT=1;
+var timeDelaySlotAnim=TIMEDELAYLONG;
 
 var nameJson={"data":[{"NOMBRE_PILA":"GABRIEL LEANDRO"
 ,"APELLIDO_MATERNO":"BECKER"
@@ -47,20 +59,62 @@ $(window).resize(function(){
 });
 
 $(window).keydown  (function(){
-    if(!slotFinishFlag){
-        putName(nameJson.names);
-    }else{
+    if(slotFinishFlag){
         createSlots();
-        slotFinishFlag=false;
+        slotFinishFlag=false
+    }else{
+        if(slotAnimationFinishFlag){
+        personName=centerStringInSlot(nameJson.data[0].NOMBRE_PILA);
+        personLastName=centerStringInSlot(nameJson.data[0].APELLIDO_PATERNO);
+        personSecondLastName=centerStringInSlot(nameJson.data[0].APELLIDO_MATERNO);
+        slotData=[personName,personLastName,personSecondLastName];
+        //putName();
+        interval=setInterval(putNameOneLetterAtTime,30);
+        slotAnimationFinishFlag=false;
+        }else{
+            timeDelaySlotAnim=TIMEDELAYSHORT;
+        }
     }
+  
+        ;
+
 });
 
-
-function putName(nameArray){
-    var personName=centerStringInSlot(nameJson.data[0].NOMBRE_PILA);
-    var personLastName=centerStringInSlot(nameJson.data[0].APELLIDO_PATERNO);
-    var personSecondLastName=centerStringInSlot(nameJson.data[0].APELLIDO_MATERNO);
-    var slotData=[personName,personLastName,personSecondLastName];
+function putNameOneLetterAtTime(){
+    if(timerCount%timeDelaySlotAnim==0){
+        if(rowCount<slotRowNum){
+            console.log("Column Count "+columnCount);
+            var selectSlot=$(".slot-row-container")[columnCount].children[rowCount];
+                console.log(selectSlot);
+                if(slotData[columnCount][0]!=undefined){
+                    selectSlot.innerHTML="<div class='letter-anim'>"+slotData[columnCount][0]+"</div>";
+                    slotData[columnCount]=slotData[columnCount].slice(1,slotData[columnCount].length);
+                    console.log(slotData[columnCount]);
+                }else{
+                    selectSlot.innerHTML=" ";
+                }
+            rowCount++;
+        }else{
+            if(columnCount<slotColumnNum-1){
+                columnCount++;
+                rowCount=0;
+            }else{
+                console.log("Slot Finish");
+                clearInterval(interval);
+                timerCount=0;
+                rowCount=0;
+                columnCount=0;
+                slotAnimationFinishFlag=true;
+                slotFinishFlag=true;
+                timeDelaySlotAnim=TIMEDELAYLONG;
+            }
+        }
+    }
+    timerCount++;
+}
+    
+    
+function putName(){
     for(var slotColumNumArray=0;slotColumNumArray<slotColumnNum;slotColumNumArray++){
         for(var slotRowNumArray=0;slotRowNumArray<slotRowNum;slotRowNumArray++){
             var selectSlot=$(".slot-row-container")[slotColumNumArray].children[slotRowNumArray];
