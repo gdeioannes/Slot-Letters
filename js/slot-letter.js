@@ -25,10 +25,12 @@ var TIMEDELAYLONG=10;
 var TIMEDELAYSHORT=1;
 var timeDelaySlotAnim=TIMEDELAYLONG;
 
-var nameJson={"data":[{"NOMBRE_PILA":"GABRIEL LEANDRO"
-,"APELLIDO_MATERNO":"BECKER"
-,"APELLIDO_PATERNO":"DE IOANNES"
+var nameJson={"data":[{"NOMBRE_PILA":"PEDRO JUAN"
+,"APELLIDO_MATERNO":"GONZALES"
+,"APELLIDO_PATERNO":"WOYWOOD"
 }]}
+
+slotsCSS();
 
 function createSlots(){
     $(".slot-Container").html("");
@@ -67,6 +69,7 @@ $(window).keydown  (function(){
         personName=centerStringInSlot(nameJson.data[0].NOMBRE_PILA);
         personLastName=centerStringInSlot(nameJson.data[0].APELLIDO_PATERNO);
         personSecondLastName=centerStringInSlot(nameJson.data[0].APELLIDO_MATERNO);
+            
         slotData=[personName,personLastName,personSecondLastName];
         //putName();
         interval=setInterval(putNameOneLetterAtTime,30);
