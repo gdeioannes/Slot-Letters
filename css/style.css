@@ -70,22 +70,37 @@ body{
 
 header{
     margin-top: 2%;
+    background-image: url(../img/slot-machine/slot-machine-top_04.png);
+    background-repeat: repeat-x;
+}
+
+footer{
+    z-index: 1000;
+    background-image: url("../img/slot-machine/slot-machine-bottom_02.gif");
+    background-repeat: repeat-x;
 }
 
 header,footer{
+    margin: auto;
     text-align: center;
+    width: 62%;
+    min-width: 655px;
 }
 
+header img{
+    font-size: 0px;
+}
 .slot-container{
+    min-width: 675px;
     margin: auto;
     width: 70%;
     text-align: center;
     box-sizing: border-box;
     border-width: 1px;
     background-image: url("../img/slot-container-background.jpg");
-    -webkit-box-shadow: 0px 0px 57px 10px rgba(0,0,0,0.84);
-    -moz-box-shadow: 0px 0px 57px 10px rgba(0,0,0,0.84);
-    box-shadow: 0px 0px 57px 10px rgba(0,0,0,0.84);
+    -webkit-box-shadow: 0px 30px 40px 5px rgba(0,0,0,0.84)
+    -moz-box-shadow: 0px 30px 40px 5px rgba(0,0,0,0.84)
+    box-shadow: 0px 30px 40px 5px rgba(0,0,0,0.84)
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
@@ -137,7 +152,20 @@ header,footer{
 }
 
 .slot-table{
+    position: relative;
     margin-top: -150px;
     height: 1000px;
     background: #262626;
+    z-index: -1;
 }
+
+.header_1, .footer_1{
+    margin-left: -3%;
+    float: left;
+}
+
+.header_5, .footer_5{
+     margin-right: -3%;
+    float: right;
+}
+
