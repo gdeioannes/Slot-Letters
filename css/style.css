@@ -63,9 +63,13 @@ html{
 
 body{
     overflow: hidden;
-    background-image: url("../img/background.png");
+    position: absolute
     margin: 0px;
     padding: 0px;
+}
+
+.body-background{
+    background-image: url("../img/background.png");
 }
 
 header{
@@ -130,6 +134,8 @@ header img{
 .slot .letter-anim{
    animation-name: slotLetter;
    animation-duration: 0.2s;
+   color: #d5ab6d;
+   text-shadow:0px 0px 2px #432812;
 }
 
 .slot{

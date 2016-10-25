@@ -81,6 +81,28 @@ $(window).resize(function(){
 });
 
 $(window).keydown  (function(){
+    activateSlot();
+});
+
+$("footer").click(function(){
+       activateSlot();
+});
+    
+    
+$(window).mousemove(function(e){
+    var x = e.clientX;     // Get the horizontal coordinate
+    var y = e.clientY;     // Get the vertical coordinate
+    var coor = "X coords: " + x + ", Y coords: " + y;
+    $(".body-background").css("background-position", ""+(-getMoveMouseValue(x,100))+"px 0px");
+
+    
+});
+    
+    function getMoveMouseValue(value,div){
+        return (Math.round(value/div));
+    }
+    
+function activateSlot(){
     if(slotFinishFlag){
         createSlots();
         slotFinishFlag=false
@@ -102,11 +124,8 @@ $(window).keydown  (function(){
             timeDelaySlotAnim=TIMEDELAYSHORT;
         }
     }
-  
-        ;
-
-});
-
+}
+    
 function putNameOneLetterAtTime(){
     if(timerCount%timeDelaySlotAnim==0){
         if(rowCount<slotRowNum){
@@ -125,7 +144,7 @@ function putNameOneLetterAtTime(){
                 columnCount++;
                 rowCount=0;
             }else{
-                console.log("Slot Finish");
+                //console.log("Slot Finish");
                 clearInterval(interval);
                 timerCount=0;
                 rowCount=0;
@@ -143,7 +162,7 @@ function putNameOneLetterAtTime(){
 
     function playRandomSlotSound(){
         var pichSound=Math.round(Math.random()*4)
-        console.log("SLOT SOUND");
+        //console.log("SLOT SOUND");
         switch(pichSound){
                 case 1:
                 sndSlot1.play();
@@ -169,16 +188,16 @@ function putName(){
     for(var slotColumNumArray=0;slotColumNumArray<slotColumnNum;slotColumNumArray++){
         for(var slotRowNumArray=0;slotRowNumArray<slotRowNum;slotRowNumArray++){
             var selectSlot=$(".slot-row-container")[slotColumNumArray].children[slotRowNumArray];
-            console.log(selectSlot);
+            //console.log(selectSlot);
             if(slotData[slotColumNumArray][0]!=undefined){
                 selectSlot.innerHTML="<div class='letter-anim'>"+slotData[slotColumNumArray][0]+"</div>";
                 slotData[slotColumNumArray]=slotData[slotColumNumArray].slice(1,slotData[slotColumNumArray].length);
-                console.log(slotData[slotColumNumArray]);
+                //console.log(slotData[slotColumNumArray]);
             }else{
                 selectSlot.innerHTML=" ";
             }
         }
-        console.log("CHANGE COLUM");
+        //console.log("CHANGE COLUM");
     }
     slotFinishFlag=true;
 }
@@ -211,6 +230,11 @@ function createGoldCoins(){
     $(newGold).css("height",goldSize);
     $(newGold).css("left",goldPosx);
     $(newGold).css("top",-goldSize);
+    if(Math.round(Math.random()*100)>20){
+        $(newGold).css("z-index",-1000);
+    }else{
+        $(newGold).css("z-index",1);
+    }
     
     goldCoinNumCount++;
     
@@ -242,6 +266,6 @@ function animateGoldCoins(){
        
 $.get("http://condor2.utalca.cl/pls/sap_test/pkg_integra_utal.Get_ganador_aniversario",function(data,status){console.log(data);})
 
-console.log(nameJson.data[0].NOMBRE_PILA+" "+nameJson.data[0].APELLIDO_PATERNO+" "+nameJson.data[0].APELLIDO_MATERNO);
+//console.log(nameJson.data[0].NOMBRE_PILA+" "+nameJson.data[0].APELLIDO_PATERNO+" "+nameJson.data[0].APELLIDO_MATERNO);
     
 });
