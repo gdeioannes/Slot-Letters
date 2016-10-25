@@ -6,11 +6,10 @@ Thanks!
 $(window).ready(function(){
 var name2={names:["Gabriel De Ioannes Becker","Felipe Besoain","Pablo Rojas"]}
 
-var slotRowNum=14 ;
+var slotRowNum=15 ;
 var slotColumnNum=3;
 var slotMargin=5;
 createSlots();
-var slots=$(".slot");
 var slotFinishFlag=false;
 var slotAnimationFinishFlag=true;
 var interval;
@@ -30,9 +29,11 @@ var goldCoinNumCount=0;
 var goldCoinMinSize=50;
 var goldCoinMaxSize=140;
 var goldCreationVelocity=70;
-var goldAnimationVelocity=7  ;
+var goldAnimationVelocity=10;
 var golCoinAnimInterval;
 var golCoinCreateInterval;
+var alAguaPercentageChance=40;
+
 
     
 var sndLoop = document.getElementById("loop");
@@ -45,9 +46,9 @@ var sndSlot3= document.getElementById("slot-stop-3");
 var sndSlot4= document.getElementById("slot-stop-4");
 sndLoop.play();
     
-var nameJson={"data":[{"NOMBRE_PILA":"PEDRO JUANMARDOQUEZ"
+var nameJson={"data":[{"NOMBRE_PILA":"PEDRO JU LKDSLKDS"
 ,"APELLIDO_MATERNO":"GONZALESDELAGRAN DEL NO SE QUE"
-,"APELLIDO_PATERNO":"WOYWOOD PROBANDO LARGO"
+,"APELLIDO_PATERNO":"WOYWOOD PROBANDO APELLIDO LARGO"
 }]}
 
 slotsCSS();
@@ -110,10 +111,17 @@ function activateSlot(){
         sndLoop.play();
     }else{
         if(slotAnimationFinishFlag){
-            personName=centerStringInSlot(nameJson.data[0].NOMBRE_PILA);
-            personLastName=centerStringInSlot(nameJson.data[0].APELLIDO_PATERNO);
-            personSecondLastName=centerStringInSlot(nameJson.data[0].APELLIDO_MATERNO);
-
+            var alAguaDice=Math.random()*100;
+            console.log(alAguaDice);
+            if( alAguaDice > alAguaPercentageChance){
+                personName=centerStringInSlot(nameJson.data[0].NOMBRE_PILA);
+                personLastName=centerStringInSlot(nameJson.data[0].APELLIDO_PATERNO);
+                personSecondLastName=centerStringInSlot(nameJson.data[0].APELLIDO_MATERNO);
+            }else{
+                personName=centerStringInSlot("AL AGUA");
+                personLastName=centerStringInSlot("SIGA ATENTO");
+                personSecondLastName=centerStringInSlot("UTALCA 35AÑOS");
+            }
             slotData=[personName,personLastName,personSecondLastName];
             //putName();
             interval=setInterval(putNameOneLetterAtTime,30);
@@ -130,10 +138,14 @@ function putNameOneLetterAtTime(){
     if(timerCount%timeDelaySlotAnim==0){
         if(rowCount<slotRowNum){
             var selectSlot=$(".slot-row-container")[columnCount].children[rowCount];
+            if(columnCount<=slotData.length-1){
                 if(slotData[columnCount][0]!=undefined){
                     playRandomSlotSound();
                     selectSlot.innerHTML="<div class='letter-anim'>"+slotData[columnCount][0]+"</div>";
                     slotData[columnCount]=slotData[columnCount].slice(1,slotData[columnCount].length);
+                }else{
+                    selectSlot.innerHTML=" ";
+                }
                 }else{
                     selectSlot.innerHTML=" ";
                 }
@@ -149,7 +161,6 @@ function putNameOneLetterAtTime(){
                 timerCount=0;
                 rowCount=0;
                 columnCount=0;
-                
                 timeDelaySlotAnim=TIMEDELAYLONG;
                 sndLoop.pause();
                 sndFinish.play();
