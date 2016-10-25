@@ -45,9 +45,9 @@ var sndSlot3= document.getElementById("slot-stop-3");
 var sndSlot4= document.getElementById("slot-stop-4");
 sndLoop.play();
     
-var nameJson={"data":[{"NOMBRE_PILA":"PEDRO JUAN"
-,"APELLIDO_MATERNO":"GONZALES"
-,"APELLIDO_PATERNO":"WOYWOOD"
+var nameJson={"data":[{"NOMBRE_PILA":"PEDRO JUANMARDOQUEZ"
+,"APELLIDO_MATERNO":"GONZALESDELAGRAN DEL NO SE QUE"
+,"APELLIDO_PATERNO":"WOYWOOD PROBANDO LARGO"
 }]}
 
 slotsCSS();
@@ -84,6 +84,7 @@ $(window).keydown  (function(){
     if(slotFinishFlag){
         createSlots();
         slotFinishFlag=false
+        timeDelaySlotAnim=TIMEDELAYLONG;
         sndLoop.play();
     }else{
         if(slotAnimationFinishFlag){
@@ -96,6 +97,7 @@ $(window).keydown  (function(){
             interval=setInterval(putNameOneLetterAtTime,30);
             slotAnimationFinishFlag=false;
             sndPress.play();
+            
         }else{
             timeDelaySlotAnim=TIMEDELAYSHORT;
         }
