@@ -24,6 +24,15 @@ var slotData;
 var TIMEDELAYLONG=10;
 var TIMEDELAYSHORT=1;
 var timeDelaySlotAnim=TIMEDELAYLONG;
+var goldCoinArray=[];
+var goldCoinNum=100;
+var goldCoinNumCount=0;
+var goldCoinMinSize=40;
+var goldCoinMaxSize=100;
+var goldCreationVelocity=100;
+var goldAnimationVelocity=10;
+var golCoinAnimInterval;
+var golCoinCreateInterval;
 
     
 var sndLoop = document.getElementById("loop");
@@ -99,13 +108,11 @@ $(window).keydown  (function(){
 function putNameOneLetterAtTime(){
     if(timerCount%timeDelaySlotAnim==0){
         if(rowCount<slotRowNum){
-            console.log("Column Count "+columnCount);
             var selectSlot=$(".slot-row-container")[columnCount].children[rowCount];
                 if(slotData[columnCount][0]!=undefined){
                     playRandomSlotSound();
                     selectSlot.innerHTML="<div class='letter-anim'>"+slotData[columnCount][0]+"</div>";
                     slotData[columnCount]=slotData[columnCount].slice(1,slotData[columnCount].length);
-                    console.log(slotData[columnCount]);
                 }else{
                     selectSlot.innerHTML=" ";
                 }
@@ -126,6 +133,7 @@ function putNameOneLetterAtTime(){
                 timeDelaySlotAnim=TIMEDELAYLONG;
                 sndLoop.pause();
                 sndFinish.play();
+                golCoinCreateInterval=setInterval(createGoldCoins,goldCreationVelocity);
             }
         }
     }
@@ -134,7 +142,7 @@ function putNameOneLetterAtTime(){
 
     function playRandomSlotSound(){
         var pichSound=Math.round(Math.random()*4)
-        
+        console.log("SLOT SOUND");
         switch(pichSound){
                 case 1:
                 sndSlot1.play();
@@ -174,8 +182,6 @@ function putName(){
     slotFinishFlag=true;
 }
 
-    
-    
 function centerStringInSlot(someName){
     if(someName.length>slotRowNum){
      someName=someName.substring(0, someName.indexOf(' '));
@@ -186,10 +192,49 @@ function centerStringInSlot(someName){
  }
     return newName;
 }
+    
+
+    
+function createGoldCoins(){
+    var goldCoinContainer=$(".gold-coin-container");
+    if(goldCoinContainer.children().length==0){
+        golCoinAnimInterval=setInterval(animateGoldCoins,30);
+    }
+
+    var goldPosx=Math.random()*window.innerWidth;
+    var goldSize=goldCoinMinSize+(Math.random()*(goldCoinMaxSize-goldCoinMinSize));
+    var goldPosy=100;
+    goldCoinContainer.prepend("<div class='gold-coin'></div>");
+    var newGold=goldCoinContainer.children()[0];
+    $(newGold).css("width",goldSize);
+    $(newGold).css("height",goldSize);
+    $(newGold).css("left",goldPosx);
+    $(newGold).css("top",-goldSize);
+    
+    goldCoinNumCount++;
+    
+    if(goldCoinNumCount>=goldCoinNum){
+        clearInterval(golCoinCreateInterval);
+        goldCoinNumCount=0;
+    }
+    
+}
+    
+function animateGoldCoins(){
+    for(var goldCoinAnimNum=0;goldCoinAnimNum<$(".gold-coin-container").children().length;goldCoinAnimNum++){
+        var goldCoinAnim=$(".gold-coin-container").children()[goldCoinAnimNum];
+        var endVelocity=goldAnimationVelocity/((parseInt($(goldCoinAnim).css("width")))*0.01);
+        $(goldCoinAnim).css("top",parseInt($(goldCoinAnim).css("top"))+endVelocity);
+        if(parseInt($(goldCoinAnim).css("top"))>window.innerHeight){
+            goldCoinAnim.remove();
+            break;
+        }
+    }
+   
+}
        
 $.get("http://condor2.utalca.cl/pls/sap_test/pkg_integra_utal.Get_ganador_aniversario",function(data,status){console.log(data);})
 
 console.log(nameJson.data[0].NOMBRE_PILA+" "+nameJson.data[0].APELLIDO_PATERNO+" "+nameJson.data[0].APELLIDO_MATERNO);
     
-console.log($(".slot-row-container")[0].children[0]);
 });

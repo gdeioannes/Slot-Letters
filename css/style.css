@@ -169,3 +169,11 @@ header img{
     float: right;
 }
 
+.gold-coin{
+    position: absolute;
+    background-image: url(../img/gold-coin.gif); 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
