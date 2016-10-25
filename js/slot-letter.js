@@ -27,10 +27,10 @@ var timeDelaySlotAnim=TIMEDELAYLONG;
 var goldCoinArray=[];
 var goldCoinNum=100;
 var goldCoinNumCount=0;
-var goldCoinMinSize=40;
-var goldCoinMaxSize=100;
-var goldCreationVelocity=100;
-var goldAnimationVelocity=10;
+var goldCoinMinSize=50;
+var goldCoinMaxSize=140;
+var goldCreationVelocity=70;
+var goldAnimationVelocity=7  ;
 var golCoinAnimInterval;
 var golCoinCreateInterval;
 
@@ -128,8 +128,7 @@ function putNameOneLetterAtTime(){
                 timerCount=0;
                 rowCount=0;
                 columnCount=0;
-                slotAnimationFinishFlag=true;
-                slotFinishFlag=true;
+                
                 timeDelaySlotAnim=TIMEDELAYLONG;
                 sndLoop.pause();
                 sndFinish.play();
@@ -216,6 +215,7 @@ function createGoldCoins(){
     if(goldCoinNumCount>=goldCoinNum){
         clearInterval(golCoinCreateInterval);
         goldCoinNumCount=0;
+        
     }
     
 }
@@ -229,6 +229,11 @@ function animateGoldCoins(){
             goldCoinAnim.remove();
             break;
         }
+    }
+    if($(".gold-coin-container").children().length==0){
+        clearInterval(golCoinAnimInterval);
+        slotAnimationFinishFlag=true;
+        slotFinishFlag=true;
     }
    
 }
