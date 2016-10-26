@@ -6,7 +6,7 @@ Thanks!
 $(window).ready(function(){
 var name2={names:["Gabriel De Ioannes Becker","Felipe Besoain","Pablo Rojas"]}
 
-var slotRowNum=15 ;
+var slotRowNum=15;
 var slotColumnNum=3;
 var slotMargin=5;
 createSlots();
