@@ -32,7 +32,7 @@ var goldCreationVelocity=70;
 var goldAnimationVelocity=10;
 var golCoinAnimInterval;
 var golCoinCreateInterval;
-var alAguaPercentageChance=100;
+var alAguaPercentageChance=60;
 var alAguaFlag=false;
 var sndVolume=1;
 var sndVolumeSave=1;
