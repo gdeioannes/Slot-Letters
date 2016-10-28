@@ -7,7 +7,7 @@ $(window).ready(function(){
 var name2={names:["Gabriel De Ioannes Becker","Felipe Besoain","Pablo Rojas"]}
 
 var slotRowNum=15;
-var slotColumnNum=3;
+var slotColumnNum=4;
 var slotMargin=5;
 createSlots();
 var slotFinishFlag=false;
@@ -32,9 +32,17 @@ var goldCreationVelocity=70;
 var goldAnimationVelocity=10;
 var golCoinAnimInterval;
 var golCoinCreateInterval;
-var alAguaPercentageChance=40;
+var alAguaPercentageChance=100;
+var alAguaFlag=false;
+var sndVolume=1;
+var sndVolumeSave=1;
+var lastFrame = +new Date;
+var deltaT;
 
-
+    
+if(localStorage.getItem("sndVolume")!=undefined){
+    sndVolume=localStorage.getItem("sndVolume");
+}
     
 var sndLoop = document.getElementById("loop");
 sndLoop.loop=true;
@@ -45,10 +53,13 @@ var sndSlot2= document.getElementById("slot-stop-2");
 var sndSlot3= document.getElementById("slot-stop-3");
 var sndSlot4= document.getElementById("slot-stop-4");
 sndLoop.play();
+
+changeSoundVolume(sndVolume);    
     
 var nameJson={"data":[{"NOMBRE_PILA":"PEDRO JU LKDSLKDS"
 ,"APELLIDO_MATERNO":"GONZALESDELAGRAN DEL NO SE QUE"
 ,"APELLIDO_PATERNO":"WOYWOOD PROBANDO APELLIDO LARGO"
+,"NO_PEDIDO":"123456789"
 }]}
 
 slotsCSS();
@@ -66,6 +77,41 @@ function createSlots(){
     slotsCSS();
 }
 
+    
+function changeSoundVolume(vol){
+
+    sndLoop.volume   = vol;
+    sndFinish.volume = vol;
+    sndPress.volume  = vol;
+    sndSlot1.volume  = vol;
+    sndSlot2.volume  = vol;
+    sndSlot3.volume  = vol;
+    sndSlot4.volume  = vol;
+    localStorage.setItem("sndVolume",vol)
+}    
+    
+$(window).keydown(function(e){
+    console.log(e.keyCode);
+    var key=e.keyCode;
+    if(key==38){
+        sndVolume+=0.1;
+        changeSoundVolume(sndVolume);
+    }
+    if(key==40){
+        sndVolume-=0.1;
+        changeSoundVolume(sndVolume);
+    }
+    if(sndVolume<0){
+        sndVolume=0;
+        changeSoundVolume(sndVolume);
+    }
+    if(sndVolume>1){
+        sndVolume=1;
+        changeSoundVolume(sndVolume);
+    }
+    
+});
+    
 function slotsCSS(){
         var slotSize=($('.slot-container').width()/slotRowNum)-slotMargin;
             $(".slot").css("width",slotSize-slotSize*0.25);
@@ -81,8 +127,10 @@ $(window).resize(function(){
     slotsCSS();    
 });
 
-$(window).keydown  (function(){
-    activateSlot();
+$(window).keydown  (function(e){
+    if(e.keyCode==32){
+        activateSlot();
+    }
 });
 
 $("footer").click(function(){
@@ -113,16 +161,20 @@ function activateSlot(){
         if(slotAnimationFinishFlag){
             var alAguaDice=Math.random()*100;
             console.log(alAguaDice);
-            if( alAguaDice > alAguaPercentageChance){
+            if( alAguaDice > alAguaPercentageChance || alAguaFlag==true){
                 personName=centerStringInSlot(nameJson.data[0].NOMBRE_PILA);
                 personLastName=centerStringInSlot(nameJson.data[0].APELLIDO_PATERNO);
                 personSecondLastName=centerStringInSlot(nameJson.data[0].APELLIDO_MATERNO);
+                requestNumber=centerStringInSlot(nameJson.data[0].NO_PEDIDO);
+                alAguaFlag=false;
             }else{
                 personName=centerStringInSlot("AL AGUA");
                 personLastName=centerStringInSlot("SIGA ATENTO");
                 personSecondLastName=centerStringInSlot("UTALCA 35AÑOS");
+                requestNumber=centerStringInSlot(":)");
+                alAguaFlag=true;
             }
-            slotData=[personName,personLastName,personSecondLastName];
+            slotData=[personName,personLastName,personSecondLastName,requestNumber];
             //putName();
             interval=setInterval(putNameOneLetterAtTime,30);
             slotAnimationFinishFlag=false;
