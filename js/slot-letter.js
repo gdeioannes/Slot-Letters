@@ -157,6 +157,8 @@ function activateSlot(){
         slotFinishFlag=false
         timeDelaySlotAnim=TIMEDELAYLONG;
         sndLoop.play();
+        sndFinish.pause();
+        sndFinish.currentTime = 0;
     }else{
         if(slotAnimationFinishFlag){
             var alAguaDice=Math.random()*100;
@@ -179,6 +181,7 @@ function activateSlot(){
             interval=setInterval(putNameOneLetterAtTime,30);
             slotAnimationFinishFlag=false;
             sndPress.play();
+            
             
         }else{
             timeDelaySlotAnim=TIMEDELAYSHORT;
