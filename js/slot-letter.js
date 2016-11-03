@@ -91,7 +91,7 @@ function changeSoundVolume(vol){
 }    
     
 $(window).keydown(function(e){
-    console.log(e.keyCode);
+    //console.log(e.keyCode);
     var key=e.keyCode;
     if(key==38){
         sndVolume+=0.1;
@@ -162,7 +162,7 @@ function activateSlot(){
     }else{
         if(slotAnimationFinishFlag){
             var alAguaDice=Math.random()*100;
-            console.log(alAguaDice);
+            //console.log(alAguaDice);
             if( alAguaDice > alAguaPercentageChance || alAguaFlag==true){
                 personName=centerStringInSlot(nameJson.data[0].NOMBRE_PILA);
                 personLastName=centerStringInSlot(nameJson.data[0].APELLIDO_PATERNO);
@@ -332,6 +332,5 @@ function animateGoldCoins(){
        
 $.get("http://condor2.utalca.cl/pls/sap_test/pkg_integra_utal.Get_ganador_aniversario",function(data,status){console.log(data);})
 
-//console.log(nameJson.data[0].NOMBRE_PILA+" "+nameJson.data[0].APELLIDO_PATERNO+" "+nameJson.data[0].APELLIDO_MATERNO);
     
 });
